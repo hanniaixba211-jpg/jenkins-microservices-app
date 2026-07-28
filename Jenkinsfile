@@ -3,6 +3,12 @@ pipeline {
 
     stages {
 
+        stage('Cleanup') {
+            steps {
+                sh 'docker compose down || true'
+            }
+        }
+
         stage('Build') {
             steps {
                 sh 'docker compose --profile core build'
@@ -17,6 +23,7 @@ pipeline {
 
         stage('Health Checks') {
             steps {
+                sh 'sleep 10'
                 sh 'curl http://host.docker.internal:3000/health'
                 sh 'curl http://host.docker.internal:3001/health'
                 sh 'curl http://host.docker.internal:3002/health'
@@ -26,7 +33,7 @@ pipeline {
 
     post {
         always {
-            sh 'docker compose down'
+            sh 'docker compose down || true'
         }
 
         success {
