@@ -4,24 +4,24 @@ pipeline {
     stages {
 
         stage('Build') {
-            steps {
-                bat 'docker compose --profile core build'
-            }
-        }
+    steps {
+        sh 'docker compose --profile core build'
+    }
+}
 
         stage('Start Services') {
-            steps {
-                bat 'docker compose --profile core up -d'
-            }
-        }
+    steps {
+        sh 'docker compose --profile core up -d'
+    }
+}
 
-        stage('Health Checks') {
-            steps {
-                bat 'curl http://localhost:3000/health'
-                bat 'curl http://localhost:3001/health'
-                bat 'curl http://localhost:3002/health'
-            }
-        }
+stage('Health Checks') {
+    steps {
+        sh 'curl http://host.docker.internal:3000/health'
+        sh 'curl http://host.docker.internal:3001/health'
+        sh 'curl http://host.docker.internal:3002/health'
+    }
+}
     }
 
     post {
