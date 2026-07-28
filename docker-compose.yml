@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: services/api-gateway/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    depends_on:
+      - user-service
+      - product-service
+    networks:
+      - app-network
+    profiles: ["core", "full"]
+
+  user-service:
+    build:
+      context: .
+      dockerfile: services/user-service/Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+    networks:
+      - app-network
+    profiles: ["core", "full"]
+
+  product-service:
+    build:
+      context: .
+      dockerfile: services/product-service/Dockerfile
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+    networks:
+      - app-network
+    profiles: ["core", "full"]
+
+networks:
+  app-network:
+    driver: bridge
