@@ -25,16 +25,14 @@ pipeline {
     }
 
     post {
-        success {
-            echo 'Práctica 1 ejecutada correctamente'
-        }
-
-        failure {
-            echo 'La práctica falló'
-        }
-
-        always {
-            sh 'docker compose down'
-        }
+    success {
+        echo 'Practica 1 ejecutada correctamente'
     }
+    failure {
+        echo 'La practica fallo'
+    }
+    always {
+        sh 'docker compose down'
+    }
+}
 }
